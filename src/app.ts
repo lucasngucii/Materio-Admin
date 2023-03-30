@@ -8,7 +8,7 @@ const path = require('path');
 const app = express();
 const cookieParser = require('cookie-parser');
 
-app.connect(require("./database/connected"));
+app.connect(require('./database/connected'));
 // use middleware
 app.use(express.json());
 app.use(helmet());
@@ -18,20 +18,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 // routers
-/* app.use(require("./routes/index.router")); */
+app.use(require('./routes'));
 
 // Error Handling Middleware called
 app.use((req: Request, res: Response, next: NextFunction) => {
-   const error = new Error('Not found');
-   next(error);
+    const error = new Error('Not found');
+    next(error);
 });
 // error handler middleware
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-   res.status(error.status || 500).send({
-      error: {
-         status: error.status || 500,
-         message: error.message || 'Internal Server Error',
-      },
-   });
+    res.status(error.status || 500).send({
+        error: {
+            status: error.status || 500,
+            message: error.message || 'Internal Server Error',
+        },
+    });
 });
 module.exports = app;
